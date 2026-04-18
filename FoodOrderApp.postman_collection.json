@@ -1,4 +1,33 @@
-  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"customer\",\n  \"phone\": \"+94771234567\",\n  \"address\": \"123 Main Street, Colombo\"\n}"
+{
+  "info": {
+    "name": "Food Order App - All Microservices",
+    "_postman_id": "ctse-food-order-app-2024",
+    "description": "Complete API collection for all 6 microservices: User, Order, Restaurant, Deliver, Payment, Notification",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "USER_URL",         "value": "http://13.61.23.48:3001",     "type": "string" },
+    { "key": "ORDER_URL",        "value": "http://13.51.241.210:3003",   "type": "string" },
+    { "key": "RESTAURANT_URL",   "value": "http://16.170.204.16:3002",   "type": "string" },
+    { "key": "DELIVER_URL",      "value": "http://13.60.62.20:3005",     "type": "string" },
+    { "key": "PAYMENT_URL",      "value": "http://16.16.100.51:3004",    "type": "string" },
+    { "key": "NOTIFICATION_URL", "value": "http://13.53.49.216:3006",    "type": "string" },
+    { "key": "TOKEN",            "value": "paste_your_jwt_token_here",   "type": "string" }
+  ],
+  "item": [
+
+    {
+      "name": "01 - User Service",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{USER_URL}}/api/v1/users", "host": ["{{USER_URL}}"], "path": ["api","v1","users"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"customer\",\n  \"phone\": \"+94771234567\",\n  \"address\": \"123 Main Street, Colombo\"\n}"
             }
           }
         },
@@ -21,6 +50,20 @@
             "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
             "url": { "raw": "{{USER_URL}}/api/v1/users", "host": ["{{USER_URL}}"], "path": ["api","v1","users"] }
           }
+        },
+        {
+          "name": "Get One User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": { "raw": "{{USER_URL}}/api/v1/users/oneuser/USER_ID_HERE", "host": ["{{USER_URL}}"], "path": ["api","v1","users","oneuser","USER_ID_HERE"] }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
               { "key": "Content-Type", "value": "application/json" },
               { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
@@ -41,7 +84,13 @@
             ],
             "url": { "raw": "{{USER_URL}}/api/v1/users/update/password/USER_ID_HERE", "host": ["{{USER_URL}}"], "path": ["api","v1","users","update","password","USER_ID_HERE"] },
             "body": {
-              "mode(Admin)",
+              "mode": "raw",
+              "raw": "{\n  \"oldPassword\": \"password123\",\n  \"newPassword\": \"newpassword456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Block or Unblock User (Admin)",
           "request": {
             "method": "PUT",
             "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
@@ -68,7 +117,14 @@
             }
           }
         },
-        {,
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{USER_URL}}/api/v1/users/sendOTP?email=john.doe@example.com",
+              "host": ["{{USER_URL}}"],
               "path": ["api","v1","users","sendOTP"],
               "query": [{ "key": "email", "value": "john.doe@example.com" }]
             }
@@ -83,7 +139,14 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"otp\": \"123456\"\n}"
-            }Type", "value": "application/json" }],
+            }
+          }
+        },
+        {
+          "name": "Submit Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": { "raw": "{{USER_URL}}/api/inquiry", "host": ["{{USER_URL}}"], "path": ["api","inquiry"] },
             "body": {
               "mode": "raw",
